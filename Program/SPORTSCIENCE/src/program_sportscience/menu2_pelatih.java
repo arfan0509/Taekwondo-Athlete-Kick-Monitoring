@@ -1,0 +1,343 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package program_sportscience;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+
+/**
+ *
+ * @author arfan
+ */
+public class menu2_pelatih extends javax.swing.JFrame {
+
+    /**
+     * Creates new form menu2_pelatih
+     */
+    public int baris;
+    
+    public menu2_pelatih() {
+        initComponents();
+        tampilkan_data();
+        loadtable();
+
+    }
+     private void kirim_komentar(){
+        try {
+            String sql1 = "ALTER TABLE datalatihan_atlet AUTO_INCREMENT=1";
+            String sql = "UPDATE `datalatihan_atlet` SET `evaluasi` = '"+txt_evaluasi.getText()+"' WHERE `datalatihan_atlet`.`id_data` = "+baris+"; ";
+            System.out.println(sql);
+            
+            Connection con=(Connection)koneksi.koneksiDB();
+            PreparedStatement pst = con.prepareStatement(sql);
+            PreparedStatement pst1 = con.prepareStatement(sql1);
+            pst.execute();
+            pst1.execute();
+            JOptionPane.showMessageDialog(null, "Pesan Evaluasi Berhasil Terkirim");
+        }
+        catch ( Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());}
+    }
+     
+     
+     private void hapus_data(){
+     try {
+            String sql = "DELETE FROM datalatihan_atlet WHERE id_data="+baris+"";
+            String sql1 = "ALTER TABLE datalatihan_atlet AUTO_INCREMENT=1";
+            Connection con=(Connection)koneksi.koneksiDB();
+            PreparedStatement pst = con.prepareStatement(sql);
+            PreparedStatement pst1 = con.prepareStatement(sql1);
+            pst.execute();
+            pst1.execute();
+            JOptionPane.showMessageDialog(null, "Penghapusan Data Berhasil");
+        }
+        catch ( Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());}
+    }
+     
+     
+     /*private void hapus_data(){
+          try {
+            String sql1 = "ALTER TABLE datalatihan_atlet AUTO_INCREMENT=1";
+            String sql = "DELETE FROM `datalatihan_atlet` WHERE datalatihan_atlet `id_data = "+baris+";";
+            System.out.println(sql);
+            
+            Connection con=(Connection)koneksi.koneksiDB();
+            PreparedStatement pst = con.prepareStatement(sql);
+            PreparedStatement pst1 = con.prepareStatement(sql1);
+            pst.execute();
+            pst1.execute();
+            JOptionPane.showMessageDialog(null, "Pesan Evaluasi Berhasil Terkirim");
+        }
+        catch ( Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());}
+     }*/
+     
+     public void tampilkan_data(){
+        
+   
+    DefaultTableModel model = new DefaultTableModel();
+    
+    model.addColumn("ID Atlet");
+    model.addColumn("Nama Atlet");
+    tbl_data.setModel(model);
+    
+    try{
+        int no=1;
+        String sql = "SELECT * FROM akun_atlet";
+        java.sql.Connection con = (Connection) koneksi.koneksiDB();
+        java.sql.Statement stm = con.createStatement();
+        java.sql.ResultSet res = stm.executeQuery(sql);
+        
+        while (res.next()){
+            model.addRow(new Object[]{
+            res.getString("id_atlet"),
+            res.getString("nama_atlet"),
+            
+            
+            });
+           
+           
+        
+        }
+        
+    }catch(SQLException e){
+       JOptionPane.showMessageDialog(null, "Data Gagal Ditampilkan" + e.getMessage());
+    }
+    
+     }
+     
+     
+      private void loadtable(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Atlet");
+        model.addColumn("Tanggal");
+        model.addColumn("Jumlah Tendangan");
+        model.addColumn("Evaluasi"); 
+        
+        try {
+            String sql = "SELECT `id_atlet`, `tanggal`, `jml_tendangan`, `evaluasi` FROM `datalatihan_atlet`";
+            Connection con = (Connection)koneksi.koneksiDB();
+            Statement stm = con.createStatement();
+            ResultSet res = stm.executeQuery(sql);
+            while (res.next()) {
+                model.addRow(new Object[]{
+                   res.getString(1),
+                   res.getString(2),
+                   res.getString(3),
+                   res.getString(4),
+                   
+                });
+                jTable1.setModel(model);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txt_evaluasi = new javax.swing.JTextArea();
+        btn_logout = new javax.swing.JLabel();
+        jbtn_datalatlet = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tbl_data = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        bckgrnd = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTable1);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, 540, 120));
+
+        jLabel4.setFont(new java.awt.Font("Sylfaen", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(253, 253, 253));
+        jLabel4.setText("Nama Atlet");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, -1, -1));
+
+        txt_evaluasi.setColumns(20);
+        txt_evaluasi.setRows(5);
+        jScrollPane3.setViewportView(txt_evaluasi);
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 420, 540, 70));
+
+        btn_logout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_logout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_logoutMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btn_logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 464, 100, 20));
+
+        jbtn_datalatlet.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jbtn_datalatlet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbtn_datalatletMouseClicked(evt);
+            }
+        });
+        getContentPane().add(jbtn_datalatlet, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 180, 20));
+
+        tbl_data.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(tbl_data);
+
+        getContentPane().add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 270, 140));
+
+        jLabel6.setFont(new java.awt.Font("Sylfaen", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(253, 253, 253));
+        jLabel6.setText("Riwayat Latihan Atlet");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Sylfaen", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(253, 253, 253));
+        jLabel5.setText("Saran dan Evaluasi");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, -1, -1));
+
+        jButton2.setText("Kirim");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 400, 70, 20));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/program_sportscience/image/—Pngtree—vector taekwondo action_5913212 2.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 70, 200, 180));
+
+        bckgrnd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/program_sportscience/image/m2_pelatih.jpg"))); // NOI18N
+        getContentPane().add(bckgrnd, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, 550));
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_logoutMouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        new login().setVisible(true);
+    }//GEN-LAST:event_btn_logoutMouseClicked
+
+    private void jbtn_datalatletMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtn_datalatletMouseClicked
+        // TODO add your handling code here:
+        new menu1_pelatih().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jbtn_datalatletMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        kirim_komentar();
+        this.dispose();
+        new menu2_pelatih().setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        baris = jTable1.rowAtPoint(evt.getPoint());
+        baris+=1;
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(menu2_pelatih.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(menu2_pelatih.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(menu2_pelatih.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(menu2_pelatih.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new menu2_pelatih().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel bckgrnd;
+    private javax.swing.JLabel btn_logout;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel jbtn_datalatlet;
+    private javax.swing.JTable tbl_data;
+    private javax.swing.JTextArea txt_evaluasi;
+    // End of variables declaration//GEN-END:variables
+}
